@@ -38,7 +38,6 @@ const LocationPicker = () => {
     };
     const getPickedLocation = async() => {
         await getLocationHandler()
-        console.log("location",pickedLocation);
         
         navigation.navigate('Map', {
             latitude: pickedLocation.lat,
@@ -48,7 +47,6 @@ const LocationPicker = () => {
   let mapPreview = <Text>No preview available..!</Text>
   
   if(pickedLocation){
-    console.log(pickedLocation);
     
     
     mapPreview = <Image style={styles.imageContainer} source={{uri:getMapPreviewUrl(pickedLocation.lat,pickedLocation.long)}}></Image>
