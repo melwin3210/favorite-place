@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../constants/colors";
 import OutLinedButton from "../../UI/OutLinedButton";
-import {useNavigation} from '@react-navigation/native'
+import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native'
 import { getCurrentPositionAsync, PermissionStatus, useForegroundPermissions } from "expo-location";
 import { getMapPreviewUrl } from "../../utils/location";
 
-const LocationPicker = () => {
+const LocationPicker = ({setLocation}) => {
     const [locationPermissionInfo, requestPermission] = useForegroundPermissions();
+    const route = useRoute()
+    const isFocused = useIsFocused()
     const [pickedLocation, setPickedLocation] = useState()
     const navigation = useNavigation()
     const verifyPermission = async () => {
@@ -36,19 +38,31 @@ const LocationPicker = () => {
         })
         
     };
+    useEffect(()=>{
+    const mapPicked = route?.params?.selectedLocation
+     mapPicked &&  setPickedLocation({
+      lat: mapPicked?.latitude,
+      long: mapPicked?.longitude
+  })
+    },[isFocused, route])
+    useEffect(()=>{
+    const mapPicked = route?.params?.selectedLocation
+     mapPicked &&  setLocation({
+      lat: mapPicked?.latitude,
+      long: mapPicked?.longitude
+  })
+    },[pickedLocation, setLocation])
     const getPickedLocation = async() => {
         await getLocationHandler()
         
         navigation.navigate('Map', {
-            latitude: pickedLocation.lat,
-            longitude: pickedLocation.long,
+            latitude: pickedLocation?.lat || '',
+            longitude: pickedLocation?.long || '',
         })
     }
   let mapPreview = <Text>No preview available..!</Text>
   
   if(pickedLocation){
-    
-    
     mapPreview = <Image style={styles.imageContainer} source={{uri:getMapPreviewUrl(pickedLocation.lat,pickedLocation.long)}}></Image>
   }
   return (

@@ -4,7 +4,7 @@ import { Alert, Image, StyleSheet, Text, View } from "react-native";
 import { Colors } from "../../constants/colors";
 import OutLinedButton from "../../UI/OutLinedButton";
 
-const ImagePicker = () => {
+const ImagePicker = ({setImage}) => {
     const [cameraPermissionInfo, requestPermission] = useCameraPermissions();
     const [imageUri, setImageUri] = useState()
     const verifyPermission = async () => {
@@ -32,6 +32,7 @@ const ImagePicker = () => {
       quality: 0.5,
     }).catch(err=>console.log(err))
    image.assets && setImageUri(image?.assets[0]?.uri)
+   image.assets && setImage(image?.assets[0]?.uri)
   };
   let imagePreview = <Text>Not have any image..!</Text>
   
