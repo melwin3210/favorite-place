@@ -18,14 +18,10 @@ const PlaceForm = () => {
     const locationHandler = useCallback((location) => setLocation(location),[])
     const addPlaceHandler = () => {
         const placeDetails = new Place(enteredTitle,imageUri,location)
-        console.log(placeDetails);
         
         navigation.navigate('AllPlaces',{
             places: placeDetails
         })
-        console.log(enteredTitle);
-        console.log(imageUri);
-        console.log(location);
     }
   return (
     <ScrollView style={styles.form}>
