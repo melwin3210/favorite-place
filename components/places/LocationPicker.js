@@ -4,7 +4,7 @@ import { Colors } from "../../constants/colors";
 import OutLinedButton from "../../UI/OutLinedButton";
 import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native'
 import { getCurrentPositionAsync, PermissionStatus, useForegroundPermissions } from "expo-location";
-import { getMapPreviewUrl } from "../../utils/location";
+import { addressFetch, getMapPreviewUrl } from "../../utils/location";
 
 const LocationPicker = ({setLocation}) => {
     const [locationPermissionInfo, requestPermission] = useForegroundPermissions();
@@ -45,12 +45,18 @@ const LocationPicker = ({setLocation}) => {
       long: mapPicked?.longitude
   })
     },[isFocused, route])
-    useEffect(()=>{
-    const mapPicked = route?.params?.selectedLocation
-     mapPicked &&  setLocation({
-      lat: mapPicked?.latitude,
-      long: mapPicked?.longitude
-  })
+    useEffect(()=>{   
+      const pickedLocationSelector = async() => {
+      const address = pickedLocation && await addressFetch(pickedLocation?.lat, pickedLocation?.long);        
+      setLocation({
+        lat: pickedLocation?.lat,
+        long: pickedLocation?.long,
+        address: address
+      })
+
+    }
+    pickedLocationSelector()
+     
     },[pickedLocation, setLocation])
     const getPickedLocation = async() => {
         await getLocationHandler()
