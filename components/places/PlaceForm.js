@@ -4,16 +4,25 @@ import { Colors } from '../../constants/colors'
 import ImagePicker from './ImagePicker'
 import LocationPicker from './LocationPicker'
 import Button from '../../UI/Button'
+import { useNavigation } from '@react-navigation/native'
+import { Place } from '../../models/place'
 
 const PlaceForm = () => {
 
     const [enteredTitle, setEnteredTitle]=useState('')
     const [imageUri, setImageUri]=useState('')
-    const [location, setLocation]=useState('')
+    const [location, setLocation]=useState('');
+    const navigation = useNavigation()
     const changeTitlteHandler = (enteredText) => setEnteredTitle(enteredText);
     const imageUriHandler = (uri) => setImageUri(uri)
     const locationHandler = useCallback((location) => setLocation(location),[])
     const addPlaceHandler = () => {
+        const placeDetails = new Place(enteredTitle,imageUri,location)
+        console.log(placeDetails);
+        
+        navigation.navigate('AllPlaces',{
+            places: placeDetails
+        })
         console.log(enteredTitle);
         console.log(imageUri);
         console.log(location);
