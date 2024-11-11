@@ -2,14 +2,11 @@ import React from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import PlaceItem from "./PlaceItem";
 import { Colors } from "../../constants/colors";
+import FallbackText from "../../UI/FallbackText";
 
 const PlacesList = ({ places }) => {
   if (!places || places.length === 0) {
-    return (
-      <View style={styles.fallbackContainer}>
-        <Text style={styles.fallbackText}>No places added yet - start adding some!</Text>
-      </View>
-    );
+    return  <FallbackText>No places added yet. Please add some.</FallbackText>
   }
   return (
     <FlatList

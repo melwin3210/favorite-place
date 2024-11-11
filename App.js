@@ -6,10 +6,29 @@ import AddPlace from "./screens/AddPlace";
 import IconButton from "./UI/IconButton";
 import { Colors } from "./constants/colors";
 import Map from "./screens/Map";
+import { useEffect, useState } from "react";
+import { init } from "./utils/database";
+import * as SplashScreen from 'expo-splash-screen';
+import { Text, View } from "react-native";
+import FallbackText from "./UI/FallbackText";
+
+SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [isDbLoaded, setDbLoaded] = useState(false)
+  useEffect(()=>{
+    init().then(()=>{
+      setDbLoaded(true)
+      SplashScreen.hideAsync()
+    })
+
+  },[])
+  if(!isDbLoaded){
+    return <FallbackText>Loading...Please wait.</FallbackText>
+  }
+  
   return (
     <>
       <StatusBar style="dark" />
