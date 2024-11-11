@@ -6,6 +6,7 @@ import LocationPicker from './LocationPicker'
 import Button from '../../UI/Button'
 import { useNavigation } from '@react-navigation/native'
 import { Place } from '../../models/place'
+import { insertPlace } from '../../utils/database'
 
 const PlaceForm = () => {
 
@@ -16,12 +17,10 @@ const PlaceForm = () => {
     const changeTitlteHandler = (enteredText) => setEnteredTitle(enteredText);
     const imageUriHandler = (uri) => setImageUri(uri)
     const locationHandler = useCallback((location) => setLocation(location),[])
-    const addPlaceHandler = () => {
+    const addPlaceHandler = async () => {
         const placeDetails = new Place(enteredTitle,imageUri,location)
-        
-        navigation.navigate('AllPlaces',{
-            places: placeDetails
-        })
+        await insertPlace(placeDetails)
+        navigation.navigate('AllPlaces')
     }
   return (
     <ScrollView style={styles.form}>
