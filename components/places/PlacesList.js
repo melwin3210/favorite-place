@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     color: Colors.primary200,
   },
   list: {
-    margin: 24,
+    marginTop:2
+
   },
 });
