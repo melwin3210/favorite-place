@@ -11,6 +11,7 @@ import { init } from "./utils/database";
 import * as SplashScreen from 'expo-splash-screen';
 import { Text, View } from "react-native";
 import FallbackText from "./UI/FallbackText";
+import PlaceDetails from "./screens/PlaceDetails";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -63,6 +64,14 @@ export default function App() {
           <Stack.Screen
           name="Map"
             component={Map}
+            
+          />
+          <Stack.Screen
+          name="PlaceDetails"
+            component={PlaceDetails}
+            options={{
+              title: 'Loading place...'
+            }}
             
           />
         </Stack.Navigator>

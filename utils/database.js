@@ -53,9 +53,26 @@ export const insertPlace = (place) => {
           place.location.long,
         ], // Parameters for the query
         (_, result) => {
-          console.log(result);
 
           res(result); // Success callback
+        },
+        (_, err) => {
+          rej(err); // Error callback
+        }
+      );
+    });
+  });
+};
+export const fetchPlaceDetails = (id) => {
+  const db = openDb();
+  return new Promise((res, rej) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `SELECT * FROM places WHERE id = ?`,
+        [id], // Parameters for the query
+        (_, result) => {
+
+          res(result?.rows?._array[0]); // Success callback
         },
         (_, err) => {
           rej(err); // Error callback
